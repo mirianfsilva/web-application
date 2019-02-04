@@ -26,6 +26,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// request, response 
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
    next();
@@ -80,6 +81,7 @@ app.get("/clients/new", function(req, res){
 app.get("/register", function(req, res){
    res.render("register"); 
 });
+
 //handle sign up logic
 app.post("/register", function(req, res){
     var newUser = new User({username: req.body.username});
