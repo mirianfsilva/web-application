@@ -1,11 +1,11 @@
-var express       = require("express"),
-    app           = express(),
-    bodyParser    = require("body-parser"),
-    mongoose      = require("mongoose"),
-    passport      = require("passport"),
+var express     = require("express"),
+    app         = express(),
+    bodyParser  = require("body-parser"),
+    mongoose    = require("mongoose"),
+    passport    = require("passport"),
     LocalStrategy = require("passport-local"),
-    User          = require("./models/user"),
-    Client        = require("./models/client")
+    User        = require("./models/user"),
+    Client  = require("./models/client")
 
 mongoose.connect("mongodb://localhost:27017/bankdata",{useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
@@ -42,7 +42,7 @@ app.get("/clients", function(req, res){
        if(err){
            console.log(err);
        } else {
-          res.render("index",{clients:allClients});
+          res.render("clients/index",{clients:allClients});
        }
     });
 });
@@ -70,6 +70,54 @@ app.post("/clients", function(req, res){
 app.get("/clients/new", function(req, res){
    res.render("new.ejs"); 
 });
+
+
+//  ===========
+// AUTH ROUTES
+//  ===========
+
+// show register form
+app.get("/register", function(req, res){
+   res.render("register"); 
+});
+//handle sign up logic
+app.post("/register", function(req, res){
+    var newUser = new User({username: req.body.username});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register");
+        }
+        passport.authenticate("local")(req, res, function(){
+           res.redirect("/clients"); 
+        });
+    });
+});
+
+// show login form
+app.get("/login", function(req, res){
+   res.render("login"); 
+});
+// handling login logic
+app.post("/login", passport.authenticate("local", 
+    {
+        successRedirect: "/clients",
+        failureRedirect: "/login"
+    }), function(req, res){
+});
+
+// logic route
+app.get("/logout", function(req, res){
+   req.logout();
+   res.redirect("/clients");
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The Bank Simulation has started!");
