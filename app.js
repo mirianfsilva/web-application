@@ -5,17 +5,19 @@ var express     = require("express"),
     passport    = require("passport"),
     LocalStrategy = require("passport-local"),
     User        = require("./models/user"),
-    Client  = require("./models/client")
+    Client  = require("./models/client"),
+    seedDB      = require("./seeds")
+    
 
 mongoose.connect("mongodb://localhost:27017/bankdata",{useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
+// seedDB(); //seed the database
 
-// =========================
-// PASSPORT CONFIGURATION 
-// =========================
+// PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "Once again!",
+    secret: "Ops!",
     resave: false,
     saveUninitialized: false
 }));
@@ -26,24 +28,19 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// request, response 
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
    next();
-});
-
-app.get("/", function(req, res){
-    res.render("main");
 });
 
 //INDEX - show all clients
 app.get("/clients", function(req, res){
     // Get all clients from DB
     Client.find({}, function(err, allClients){
-       if(err){
-           console.log(err);
-       } else {
-          res.render("clients/index",{clients:allClients});
+        if(err){
+            console.log(err);
+        } else {
+            res.render("clients/index",{clients:allClients});
        }
     });
 });
@@ -73,6 +70,11 @@ app.get("/clients/new", function(req, res){
 });
 
 
+//root route
+app.get("/", function(req, res){
+    res.render("main");
+});
+
 //  ===========
 // AUTH ROUTES
 //  ===========
@@ -96,11 +98,12 @@ app.post("/register", function(req, res){
     });
 });
 
-// show login form
+//show login form
 app.get("/login", function(req, res){
    res.render("login"); 
 });
-// handling login logic
+
+//handling login logic
 app.post("/login", passport.authenticate("local", 
     {
         successRedirect: "/clients",
@@ -108,12 +111,14 @@ app.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
-// logic route
+// logout route
 app.get("/logout", function(req, res){
    req.logout();
    res.redirect("/clients");
 });
 
+
+//middleware
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
