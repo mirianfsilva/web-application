@@ -1,11 +1,11 @@
-var express     = require("express"),
-    app         = express(),
-    bodyParser  = require("body-parser"),
-    mongoose    = require("mongoose"),
-    passport    = require("passport"),
+var express       = require("express"),
+    app           = express(),
+    bodyParser    = require("body-parser"),
+    mongoose      = require("mongoose"),
+    passport      = require("passport"),
     LocalStrategy = require("passport-local"),
-    User        = require("./models/user"),
-    Client  = require("./models/client")
+    User          = require("./models/user"),
+    Client        = require("./models/client")
 
 mongoose.connect("mongodb://localhost:27017/bankdata",{useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
