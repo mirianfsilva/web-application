@@ -65,10 +65,9 @@ app.post("/clients", function(req, res){
 });
 
 //NEW - show form to create new client
-app.get("/clients/new", function(req, res){
-   res.render("new.ejs"); 
+app.get("/new", isLoggedIn, function(req, res){
+   res.render("clients/new"); 
 });
-
 
 //root route
 app.get("/", function(req, res){
