@@ -1,7 +1,7 @@
 {
-  "name": "first-version",
-  "version": "1.0.0",
-  "description": "Bank webapp v1",
+  "name": "second-version",
+  "version": "2.0.0",
+  "description": "YourBank webApp",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,5 +16,13 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirianfsilva/web-application/"
+  },
+  "keywords": [
+    "web-app"
+  ]
 }
