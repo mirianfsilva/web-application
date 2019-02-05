@@ -15,5 +15,18 @@ Simple banking application using (MEN) MongoDB, Express.js and Node.js.
 - NodeJs
 - Express Framework
 
+#### Installing MongoDB on a Cloud9 workspace
+```
+sudo apt-get install -y mongodb-org
+```
+#### Running MongoDB on a Cloud9 workspace
+```
+$ mkdir data
+$ echo 'mongod --bind_ip=$IP --dbpath=data --nojournal --rest "$@"' > mongod
+$ chmod a+x mongod
+```
+Start mongodb by running the mongod script on your project root:
+``` ./mongod ```
+
 ### Screenshots:
 ![alt text](https://github.com/mirianfsilva/web-application/blob/master/images/homepage.png)
