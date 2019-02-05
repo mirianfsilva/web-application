@@ -3,9 +3,10 @@ var mongoose = require("mongoose");
 
 var clientSchema = new mongoose.Schema({
    name: String,
-   age : String,
+   age : Number,
    email: String,
-   accnumber: Number
+   account: Number,
+   money: Number
 });
 
 module.exports = mongoose.model("Client", clientSchema);

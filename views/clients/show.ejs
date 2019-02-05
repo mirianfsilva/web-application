@@ -1,6 +1,18 @@
 <% include ../partials/header %>
 <div class="container">
-
+    <div class="row">
+        <div style="width: 30%; margin: 25px auto;">
+            <h2 style="text-align: center">Client: <a><%= client.name %></a></h2>
+            <div class="thumbnail">
+                <div class="caption-full">
+                    <p>Age: <%= client.age %></p>
+                    <p>email: <%= client.email %></p>
+                    <p>Balance: <%= client.money %></p>
+                </div>
+            </div>
+            <a href="/clients">Go Back</a>
+        </div>
+    </div>
 </div>
 
 <% include ../partials/footer %>

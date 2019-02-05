@@ -6,23 +6,25 @@ var data = [
         name: "Harry Potter", 
         age : "20",
         email: "potter@hogwarts.com",
-        accnumber: 12345678
+        account: 12345678,
+        money: 0
     },
     {
         name: "Hermione Granger", 
         age : "20",
         email: "hermione@hogwarts.com",
-        accnumber: 12345677
+        account: 12345677,
+        money: 0
     },
 ]
 function seedDB(){
-   //Remove all campgrounds
+   //Remove all clients
    Client.remove({}, function(err){
         if(err){
             console.log(err);
         }
         console.log("removed clients!");
-         //add a few campgrounds
+         //add a few clients
         data.forEach(function(seed){
             Client.create(seed, function(err, client){
                 if(err){
