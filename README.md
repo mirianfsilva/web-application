@@ -30,3 +30,9 @@ Start mongodb by running the mongod script on your project root:
 
 ### Screenshots:
 ![alt text](https://github.com/mirianfsilva/web-application/blob/master/images/homepage.png)
+
+
+![alt text](https://github.com/mirianfsilva/web-application/blob/master/images/yourbank.png)
+
+
+![alt text](https://github.com/mirianfsilva/web-application/blob/master/images/newclientpage.png)
