@@ -4,9 +4,9 @@ var express     = require("express"),
     mongoose    = require("mongoose"),
     passport    = require("passport"),
     LocalStrategy = require("passport-local"),
-    User        = require("./models/user"),
-    Client  = require("./models/client"),
-    seedDB      = require("./seeds")
+    User          = require("./models/user"),
+    Client        = require("./models/client"),
+    seedDB        = require("./seeds");
     
 
 mongoose.connect("mongodb://localhost:27017/bankdata",{useNewUrlParser: true});
@@ -34,7 +34,7 @@ app.use(function(req, res, next){
 });
 
 //INDEX - show all clients
-app.get("/clients", function(req, res){
+app.get("/clients", isLoggedIn, function(req, res){
     // Get all clients from DB
     Client.find({}, function(err, allClients){
         if(err){
@@ -46,27 +46,43 @@ app.get("/clients", function(req, res){
 });
 
 //CREATE - add new client to DB
-app.post("/clients", function(req, res){
-    // get data from form and add to campgrounds array
-    var name = req.body.name;
-    var age = req.body.age;
-    var email = req.body.email;
-    var accountNumber = req.body.number;
-    var newClient = {name: name, age: age, email:email, number: accountNumber}
-    // Create a new campground and save to DB
+app.post("/clients", isLoggedIn, function(req, res){
+    // get data from form and add to clients array
+    var name    = req.body.name;
+    var age     = req.body.age;
+    var email   = req.body.email;
+    var account = req.body.account;
+    var money   = req.body.money;
+    
+    var newClient = {name: name, age: age, email:email, account: account, money:money}
+    // Create a new client and save to DB
     Client.create(newClient, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else {
-            //redirect back to campgrounds page
+            //redirect back to clients page
             res.redirect("/clients");
         }
     });
 });
 
 //NEW - show form to create new client
-app.get("/new", isLoggedIn, function(req, res){
+app.get("/clients/new", isLoggedIn,  function(req, res){
    res.render("clients/new"); 
+});
+
+// SHOW - shows more info about one client
+app.get("/clients/:id", function(req, res){
+    //find the client with provided ID
+    Client.findById(req.params.id).populate("info").exec(function(err, foundClient){
+        if(err){
+            console.log(err);
+        } else {
+            console.log(foundClient);
+            //render show template with that campground
+            res.render("clients/show", {client: foundClient});
+        }
+    });
 });
 
 //root route
@@ -113,9 +129,8 @@ app.post("/login", passport.authenticate("local",
 // logout route
 app.get("/logout", function(req, res){
    req.logout();
-   res.redirect("/clients");
+   res.redirect("/");
 });
-
 
 //middleware
 function isLoggedIn(req, res, next){
