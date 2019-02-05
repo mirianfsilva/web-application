@@ -8,7 +8,12 @@ var express     = require("express"),
     Client        = require("./models/client"),
     seedDB        = require("./seeds");
 
-mongoose.connect("mongodb://localhost:27017/bank-data",{useNewUrlParser: true});
+//DATABASEURL replaced by =mongodb://localhost:27017/bank-data
+//mongoose.connect(mongodb://localhost:27017/bank-data,{useNewUrlParser: true});
+
+console.log(process.env.DATABASEURL);
+mongoose.connect(process.env.DATABASEURL,{useNewUrlParser: true});
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
