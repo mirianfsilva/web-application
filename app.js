@@ -7,9 +7,8 @@ var express     = require("express"),
     User          = require("./models/user"),
     Client        = require("./models/client"),
     seedDB        = require("./seeds");
-    
 
-mongoose.connect("mongodb://localhost:27017/bankdata",{useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/bank-data",{useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));

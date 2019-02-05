@@ -7,7 +7,10 @@
                 <div class="caption-full">
                     <p>Age: <%= client.age %></p>
                     <p>email: <%= client.email %></p>
+                    <p>Account Number: <%= client.account %></p>
                     <p>Balance: <%= client.money %></p>
+                    <!--<form id="delete-form" action="/clients/<%=client._id%>?_method=DELETE" method="POST">-->
+                    <!--<button class="btn btn-xs btn-danger">Delete</button>-->
                 </div>
             </div>
             <a href="/clients">Go Back</a>
